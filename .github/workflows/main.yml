@@ -11,14 +11,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      BRANCH_NAME: ${{ github.event_name == 'push' && contains(github.event_path, 'refs/heads/') && github.ref }}
     steps:
     - name: rama
       run: |
-        branch_name=$(basename $GITHUB_REF)
-        echo "Nombre de la rama: $branch_name"
+        echo "Nombre de la rama: $BRANCH_NAME
     - name: rama
       run: |
-        echo "Nombre de la rama: $branch_name"
+        echo "Nombre de la rama: $BRANCH_NAME
 
 
 #jobs: 
