@@ -4,8 +4,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-    - pruebadesarrollo
     - desarrollo
+  pull_request:
+      branches:
+        - prod
     
 
 jobs: 
