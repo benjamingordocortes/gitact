@@ -12,8 +12,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      BRANCH_NAME: ${{ github.event_name == 'push' && contains(github.event_path, 'refs/heads/') && github.ref }}
+      BRANCH_NAME: ${{ github.event_name == 'push' && github.ref }}
     steps:
+    - name: rama
+      run: |
+        BRANCH_NAME=${BRANCH_NAME#refs/heads/}
+        echo "Nombre de la rama: $BRANCH_NAME"
     - name: rama
       run: |
         echo "Nombre de la rama: $BRANCH_NAME"
