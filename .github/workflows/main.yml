@@ -16,10 +16,10 @@ jobs:
     steps:
     - name: rama
       run: |
-        echo "Nombre de la rama: $BRANCH_NAME
+        echo "Nombre de la rama: $BRANCH_NAME"
     - name: rama
       run: |
-        echo "Nombre de la rama: $BRANCH_NAME
+        echo "Nombre de la rama: $BRANCH_NAME"
 
 
 #jobs: 
