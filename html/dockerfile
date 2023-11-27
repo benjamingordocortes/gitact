@@ -1,0 +1,2 @@
+FROM nginx
+COPY $ENTORNO.html /usr/share/nginx/html/index.html
