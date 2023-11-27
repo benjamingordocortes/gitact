@@ -4,13 +4,6 @@ on:
   workflow_dispatch:
 
 jobs: 
-  test: 
-    runs-on: ubuntu-latest
-    environment:
-      name: devs
-    steps:
-      - name: prueba
-        run: echo "prueba ${{ vars.ENTORNO }}"
   build:
     runs-on: ubuntu-latest
     environment:
