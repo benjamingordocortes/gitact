@@ -16,8 +16,7 @@ jobs:
     steps:
       - name: prueba
         run: |
-          echo ${{ github.head_ref }}
-
+          echo "Rama de origen: ${{ github.head_ref }}"
       # -
       #   name: Checkout
       #   uses: actions/checkout@v4
