@@ -2,10 +2,12 @@ name: Test
 
 on:
   workflow_dispatch:
-    
-jobs:
+
+jobs: 
   test: 
     runs-on: ubuntu-latest
+    environment:
+      name: devs
     steps:
       - name: prueba¡
-        run: echo "run prueba"
+        run: echo "run prueba ${{ vars.ENTORNO }}"
