@@ -12,21 +12,18 @@ jobs:
   example-job:
     runs-on: ubuntu-latest
         
+    env:
+      BRANCH_NAME: ${{ github.event_name == 'push' && github.ref }}
+        
     steps:
     - name: Imprimir nombre de la rama
       run: |
-        echo "Nombre de la rama: $GITHUB_REF"
-        echo "::set-env name=BRANCH_NAME::${GITHUB_REF#refs/heads/}"
-        echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
-        
-    - name: Configurar variable de entorno
-      run: |
-       echo "Usando el nombre de la rama en otro paso: $BRANCH_NAME"
+        BRANCH_NAME=$(echo $BRANCH_NAME | sed 's/refs\/heads\///')
+        echo "Nombre de la rama: $BRANCH_NAME"
         
     - name: Otro paso que usa el nombre de la rama
       run: |
         echo "Usando el nombre de la rama en otro paso: $BRANCH_NAME"
-
 
 #jobs: 
 #  build:
