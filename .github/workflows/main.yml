@@ -37,3 +37,4 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.ENTORNO }}:latest
           build-args: ENTORNO_GIT=${{ vars.ENTORNO }}
+
