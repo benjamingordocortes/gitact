@@ -1,2 +1,2 @@
 FROM nginx
-COPY /html/$ENTORNO.html /usr/share/nginx/html/index.html
+COPY /html/devs.html /usr/share/nginx/html/index.html
