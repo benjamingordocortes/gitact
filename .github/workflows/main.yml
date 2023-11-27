@@ -4,45 +4,37 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - devs
-      - prod
+    - devs
   pull_request:
-    branches:
-      - prod
-
-jobs:
+      branches:
+        - prod
+jobs: 
   build:
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref_name }}
     steps:
-      - name: Set Environment Variables
-        id: set_env_vars
-        run: |
-          if [ ${{ github.event_name }} == 'push' ]; then
-            if [ ${{ github.ref }} == 'refs/heads/devs' ]; then
-              echo "ENTORNO=devs" >> $GITHUB_ENV
-            elif [ ${{ github.ref }} == 'refs/heads/prod' ]; then
-              echo "ENTORNO=prod" >> $GITHUB_ENV
-            fi
-          elif [ ${{ github.event_name }} == 'pull_request' ]; then
-            # Lógica adicional si es necesario para pull requests
-            echo "ENTORNO=pull_request" >> $GITHUB_ENV
-          fi
-      - name: Display Environment Variable
-        run: echo "ENTORNO_GIT: $ENTORNO"
-      - name: Checkout
+      -
+        name: Checkout
         uses: actions/checkout@v4
-      - name: Login to Docker Hub
+      -
+        name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Set up Docker Buildx
+      -
+        name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Build and push
+      - 
+        name: Build and push
         uses: docker/build-push-action@v5
+        env: 
+          ENTORNO_GIT: ${{ vars.ENTORNO }}
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.ENTORNO }}:latest
-          build-args: ENTORNO_GIT=${{ env.ENTORNO }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.ENTORNO }}:latest
+          build-args: ENTORNO_GIT=${{ vars.ENTORNO }}
+
