@@ -1,3 +1,3 @@
 FROM nginx
-ENV ENTORNO_GIT="entorno"
+ARG ENTORNO_GIT
 COPY /html/$ENTORNO_GIT.html /usr/share/nginx/html/index.html
