@@ -8,15 +8,21 @@ on:
   pull_request:
       branches:
         - prod
-jobs: 
-  build:
-    runs-on: ubuntu-latest
-    environment:
-      name: ${{ github.head_ref }}
+jobs:
+  vars:
+    runs-on:  ubuntu-latest
     steps:
       - name: prueba
         run: |
-          echo "Rama de origen: ${{ github.head_ref }}"
+          BRANCH_NAME=$(echo "${{ github.ref }}" | sed 's/refs\/heads\///')
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+      - name: prueba
+        run: |
+          echo "$BRANCH_NAME"
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: $BRANCH_NAME
       # -
       #   name: Checkout
       #   uses: actions/checkout@v4
