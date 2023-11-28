@@ -30,11 +30,27 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v5
         env: 
-          ENTORNO_GIT: ${{ vars.ENTORNO }}
+          ENTORNO_GIT: ${{ github.ref_name }}
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.ENTORNO }}:latest
-          build-args: ENTORNO_GIT=${{ vars.ENTORNO }}
-
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.ref_name }}:latest
+          build-args: ENTORNO_GIT=${{ github.ref_name }}
+  deploy:
+      runs-on: ubuntu-latest
+      steps:
+        - name: install helm
+          run: |
+             curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+             chmod +x ./kubectl
+             sudo mv ./kubectl /usr/local/bin/kubectl
+             curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+             chmod 700 get_helm.sh
+             ./get_helm.sh
+        - name: Checkout Repositorio
+          uses: actions/checkout@v2
+        - name: Despliegue Helm
+          run: |
+            echo ${{ secrets.KUBECONFIG }} | base64 -d > kubeconfig.yaml
+            helm --kubeconfig=kubeconfig.yaml upgrade --install -f web/${{ github.ref_name }}.yaml web web/
