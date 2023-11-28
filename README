@@ -1,0 +1,2 @@
+act -j deploy -s KUBECONFIG="base64 kubeconfig" #desplegamos el helm en el cluster local    
+act -j build  -s DOCKERHUB_USERNAME=userdockerhub -s DOCKERHUB_TOKEN=tokendockerhub #creamos y subimos la imagen a dockerhub
